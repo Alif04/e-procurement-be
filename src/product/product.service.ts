@@ -59,6 +59,7 @@ export class ProductService {
               },
             }
           : {}),
+        is_active: true,
       };
       const count = await this.prismaService.product.count({
         where,

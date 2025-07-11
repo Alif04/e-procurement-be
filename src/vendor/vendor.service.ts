@@ -40,6 +40,7 @@ export class VendorService {
               },
             }
           : {}),
+        is_active: true,
       };
       const count = await this.prismaService.vendor.count({
         where,
