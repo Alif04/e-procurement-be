@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id      Int @id @default(autoincrement())
+  role_id Int
+
+  name     String @db.VarChar(250)
+  email    String @db.VarChar(50)
+  password String @db.VarChar(250)
+
+  is_active Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? 
+  deletedAt DateTime? 
+
+  roles  roles   @relation(fields: [role_id], references: [id])
+  vendor vendor?
+}
+
+model roles {
+  id Int @id @default(autoincrement())
+
+  name String @db.VarChar(250)
+
+  is_active Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?  
+  deletedAt DateTime? 
+
+  user user[]
+}
+
+model vendor {
+  id      Int @id @default(autoincrement())
+  user_id Int @unique
+
+  name String @db.VarChar(250)
+
+  is_active Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime? 
+
+  user    user      @relation(fields: [user_id], references: [id])
+  product product[]
+}
+
+model product {
+  id        Int @id @default(autoincrement())
+  vendor_id Int
+
+  name        String  @db.VarChar(250)
+  price       Decimal @db.Decimal(10, 2)
+  description String? @db.Text
+
+  is_active Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? 
+  deletedAt DateTime? 
+
+  vendor vendor @relation(fields: [vendor_id], references: [id])
+}
