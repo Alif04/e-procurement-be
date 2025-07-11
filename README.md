@@ -1,98 +1,187 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛒 E-Procurement API (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is the backend API for an electronic procurement (e-procurement) system, built with [NestJS](https://nestjs.com/).  
+It provides RESTful endpoints for managing users, vendors, products, and authentication. The system is designed with a modular architecture, secure JWT-based authentication, and modern TypeScript best practices.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Main features include:
+- User registration and login with JWT
+- Vendor management linked to user identity
+- Product management scoped by vendor
+- Scalable and maintainable module structure using NestJS
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🚀 Tech Stack
 
-```bash
-$ npm install
+- **Backend Framework:** [NestJS](https://nestjs.com/)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Authentication:** JWT & Passport
+- **Validation:** class-validator & class-transformer
+- **Hashing:** bcrypt
+- **Utilities:** lodash, multer (optional for file upload)
+- **Linting & Formatting:** ESLint & Prettier
+- **Database:** PostgreSQL / MySQL (via Prisma)
+
+---
+
+## 📁 Project Structure
+
+```
+e-procurement-be/
+├── src/
+│   ├── auth/              # Authentication and authorization
+│   ├── product/       # Product modules
+│   ├── vendor/       # Vendor modules
+│   ├── common/            # Reusable decorators, filters, interceptors
+│   ├── jwt.config         # JWT configuration loaded from environment variables
+│   └── main.ts            # Entry point
+├── prisma/                # Prisma schema & migration files
+├── .env                   # Environment variables
+├── package.json           # Project metadata & dependencies
+├── tsconfig*.json         # TypeScript configuration
+└── README.md              # Project documentation
 ```
 
-## Compile and run the project
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clonehttps://github.com/Alif04/e-procurement-be.git
+cd e-procurement-be
 ```
 
-## Run tests
+### 2. Install Dependencies
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+### 3. Configure Environment Variables
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Create a `.env` file at the root level:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+DATABASE_URL=mysql://user:password@localhost:5432/yourdb
+USER_SECRET=your_jwt_secret
+USER_EXPIRED='1h' //example
+PORT=3000
+```
+
+### 4. Generate Prisma Client
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Run Migrations
 
-## Resources
+```bash
+npx prisma migrate dev --name init
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 6. Start the Application
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Development:
+  ```bash
+  npm run start:dev
+  ```
+- Production:
+  ```bash
+  npm run build
+  npm run start:prod
+  ```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🔐 Authentication
 
-## Stay in touch
+Authentication is handled via [JWT (JSON Web Tokens)](https://jwt.io/). After successful login, users will receive a token.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Use token in headers for protected routes:**
 
-## License
+```http
+Authorization: Bearer <token>
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 📦 Available NPM Scripts
+
+| Script        | Description                         |
+|---------------|-------------------------------------|
+| `start`       | Start the app                       |
+| `start:dev`   | Start with hot reload (dev mode)    |
+| `start:prod`  | Start in production mode            |
+| `build`       | Compile the TypeScript code         |
+| `lint`        | Lint project files with ESLint      |
+| `format`      | Format code using Prettier          |
+
+---
+
+## 📮 API Overview
+
+| Method | Endpoint           | Description                                        |
+|--------|--------------------|----------------------------------------------------|
+| POST   | /auth/login        | Login user                                         |
+| POST   | /auth/register     | Register new user                                  |
+| POST   | /vendor            | Create a vendor using authenticated user's ID     |
+| GET    | /vendor            | Get all vendors (admin only or filtered by user)  |
+| GET    | /vendor/:id        | Get vendor details by ID                           |
+| PUT    | /vendor/:id        | Update vendor information                          |
+| DELETE | /vendor/:id        | Delete vendor                                      |
+| POST   | /product           | Create a product (uses vendor ID from token)       |
+| GET    | /product           | List all products                                  |
+| GET    | /product/:id       | Get product details by ID                          |
+| PUT    | /product/:id       | Update product by ID                               |
+| DELETE | /product/:id       | Delete product by ID                               |
+
+---
+
+## 📌 Environment Variables
+
+You need the following variables in your `.env` file:
+
+| Variable         | Required | Description                                                                 |
+|------------------|----------|-----------------------------------------------------------------------------|
+| `DATABASE_URL`   | ✅        | Prisma-supported DB connection URI                                          |
+| `USER_SECRET`    | ✅        | Secret key used to sign JWT tokens                                         |
+| `USER_EXPIRED`   | ✅        | JWT expiration duration (e.g., `1d`, `12h`, `30m`)                          |
+| `PORT`           | ❌        | Port number the app listens on (default: 3000)                              |
+
+---
+
+### 🔒 About `USER_EXPIRED`
+
+This sets how long a token is valid after login.
+
+✅ Supported formats:
+- `60` → 60 seconds
+- `10m` → 10 minutes
+- `2h` → 2 hours
+- `7d` → 7 days
+
+---
+
+## 🧑‍💻 Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+1. Fork this repo
+2. Create a new branch (`git checkout -b feature-xyz`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin feature-xyz`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+> Developed with using NestJS, Prisma, and TypeScript.
